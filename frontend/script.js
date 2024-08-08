@@ -1,6 +1,6 @@
 async function registerUser(data) {
     try {
-      const response = await fetch('/api/register', { // Adjust URL if necessary
+      const response = await fetch('/register', { // Adjust URL if necessary
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
