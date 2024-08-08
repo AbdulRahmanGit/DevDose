@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .content {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .header {
+            background-color: #f7f7f7;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .body {
+            padding: 20px;
+        }
+        .footer {
+            background-color: #f7f7f7;
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+        pre.code-snippet {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <h1>{{ subject }}</h1>
+        </div>
+        <div class="body">
+            {{ body | safe }}
+        </div>
+        <div class="footer">
+            <p>Thank you for subscribing to our daily programming tips and DSA questions.</p>
+        </div>
+    </div>
+</body>
+</html>
