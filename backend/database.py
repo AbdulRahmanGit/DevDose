@@ -65,7 +65,7 @@ def add_user(db: Session,name: str, email: str, language: str, difficulty: str):
         language (str): The user's desired programming language.
         difficulty (str): The user's desired difficulty level.
     """
-    db = SessionLocal()
+    #db = SessionLocal()
     try:
         user = User(name=name, email=email, language=language, difficulty=difficulty)
         db.add(user)
@@ -85,7 +85,7 @@ def fetch_users(db: Session) -> list:
     Returns:
         list: A list of user objects.
     """
-    db = SessionLocal()
+    #db = SessionLocal()
     try:
         users = db.query(User).all()
         return users
