@@ -21,7 +21,20 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r backend/requirements.txt
-
+        - name: Print environment variables
+        run: |
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}"
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}"
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}"
+          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}"
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+        env:
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
     - name: Run Python script
       env:
         DATABASE_URL: ${{ secrets.POSTGRES_URL }}  # Use the secret here
