@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from database import SessionLocal, get_db, add_user, fetch_users
+from database import SessionLocal, get_db, add_user, fetch_users, User
 from email_utils import send_email
 from generator import generate_tips
 from jinja2 import Template
@@ -38,6 +38,10 @@ class UserRegistration(BaseModel):
 @app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
     try:
+        # Check if the user already exists
+        existing_user = db.query(User).filter(User.email == user.email).first()
+        if existing_user:
+            return {"message": "User already registered with this email."}
         add_user(db, user.name, user.email, user.language, user.difficulty)
         send_email(f"Welcome to DevDoses, {user.name}!",
                    "Thank you for registering. You'll start receiving tips soon!",

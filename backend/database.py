@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, inspect
+from sqlalchemy import create_engine, Column, String, Integer,inspect
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 import os
@@ -32,11 +32,11 @@ Base = declarative_base()
 # Define the User model
 class User(Base):
     __tablename__ = "users"
-    email = Column(String, primary_key=True, index=True)
-    name = Column(String)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    email = Column(String, unique=True, index=True)
     language = Column(String)
     difficulty = Column(String)
-
 # Create the database tables
 def create_user_table():
     """
