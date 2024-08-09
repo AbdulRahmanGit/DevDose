@@ -28,17 +28,17 @@ jobs:
         echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}"
         echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}"
         echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}"
-        echo "DATABASE_URL=${{ secrets.POSTGRES_URL }}"
+        echo "POSTGRES_URL=${{ secrets.POSTGRES_URL }}"
       env:
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-        DATABASE_URL: ${{ secrets.POSTGRESS_URL }}
+        POSTGRES_URL: ${{ secrets.POSTGRESS_URL }}
       
     - name: Run Python script
       env:
-        DATABASE_URL: ${{ secrets.POSTGRES_URL }}  # Correct the secret name
+        POSTGRES_URL: ${{ secrets.POSTGRES_URL }}  # Correct the secret name
       run: |
         cd backend
         python main.py
