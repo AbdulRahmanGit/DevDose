@@ -15,9 +15,12 @@ DB_USER = os.getenv("POSTGRES_USER")
 DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 DB_PORT = os.getenv("POSTGRES_PORT")
 
-# Define the database URL
-DATABASE_URL = os.getenv("POSTGRES_URL")
-#f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Define the database URL (Either from environment variable or construct manually)
+DATABASE_URL = os.getenv("POSTGRES_URL") or f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set. Ensure environment variables are correctly configured.")
+
 
 # Create the database engine
 engine = create_engine(DATABASE_URL)
