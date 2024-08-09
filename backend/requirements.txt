@@ -74,7 +74,6 @@ python-dotenv==1.0.1
 python-engineio==4.9.1
 python-socketio==5.11.3
 pytz==2024.1
-pywin32
 PyYAML==6.0.1
 requests==2.31.0
 schedule==1.2.2
