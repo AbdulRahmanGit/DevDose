@@ -39,7 +39,6 @@ Pillow==10.0.0
 psycopg2==2.9.7
 psycopg2-binary==2.9.9
 pycurl==7.45.3
-pygame==2.6.0
 PyJWT==2.8.0
 pyparsing==3.0.9
 pypiwin32==223
@@ -64,6 +63,5 @@ urllib3==1.26.19
 wcwidth==0.1.9
 Werkzeug==3.0.3
 whitenoise==6.7.0
-wincertstore==0.2
 wsproto==1.2.0
 yarl==1.9.4
