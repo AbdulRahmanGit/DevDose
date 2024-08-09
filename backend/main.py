@@ -65,7 +65,8 @@ def job():
         db.close()
 
 def schedule_job():
-    schedule.every().day.at("09:00").do(job)
+    #schedule.every().day.at("09:00").do(job)
+    schedule.every().minute.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
@@ -78,8 +79,8 @@ def start_scheduler():
 
 if __name__ == "__main__":
     # Start the scheduler thread
-    #start_scheduler()
+    start_scheduler()
     #temp 
-    job()
+    #job()
     # Run the FastAPI server
     uvicorn.run(app, host="0.0.0.0", port=10000)
