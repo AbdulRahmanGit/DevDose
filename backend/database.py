@@ -52,7 +52,7 @@ def create_user_table():
     except Exception as e:
         print(f"Failed to create table: {e}")
 
-def add_user(name: str, email: str, language: str, difficulty: str):
+def add_user(db: Session,name: str, email: str, language: str, difficulty: str):
     """
     Add a new user to the PostgreSQL database.
 

@@ -1,6 +1,6 @@
 async function registerUser(data) {
     try {
-        const response = await fetch('https://llm-email-automation-back.onrender.com/register', { // Adjust URL if necessary
+        const response = await fetch('https://llm-email-automation-backend.onrender.com/register', { // Adjust URL if necessary
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
