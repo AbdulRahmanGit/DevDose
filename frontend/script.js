@@ -35,5 +35,6 @@ form.addEventListener('submit', (event) => {
         difficulty: form.querySelector('#difficulty').value
     };
 
+    console.log('Submitting data:', data); // Debugging line to check the data being sent
     registerUser(data);
 });
