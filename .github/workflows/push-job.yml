@@ -41,4 +41,4 @@ jobs:
         POSTGRES_URL: ${{ secrets.POSTGRES_URL }}  # Correct the secret name
       run: |
         cd backend
-        python main.py
+        python main.py --job
