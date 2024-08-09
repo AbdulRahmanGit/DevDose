@@ -34,11 +34,11 @@ jobs:
         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DATABASE_URL: ${{ secrets.POSTGRESS_URL }}
       
     - name: Run Python script
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}  # Correct the secret name
+        DATABASE_URL: ${{ secrets.POSTGRES_URL }}  # Correct the secret name
       run: |
         cd backend
         python main.py
