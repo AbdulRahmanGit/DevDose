@@ -1,0 +1,25 @@
+name: Run Scheduled Job
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs every day at 9:00 AM UTC
+
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10.9'  # Adjust to your Python version
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run job script
+        run: |
+          python main.py --job
