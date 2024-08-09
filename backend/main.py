@@ -51,7 +51,6 @@ def job():
             send_email(f"{difficulty.capitalize()} {language} Tips", html_content, email)
     finally:
         db.close()
-
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
     while True:
@@ -65,6 +64,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.job:
-        schedule_job()
+        job()
+        #schedule_job()
     else:
         uvicorn.run(app, host="0.0.0.0", port=10000)
