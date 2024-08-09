@@ -18,12 +18,11 @@ jobs:
       with:
         python-version: '3.10.9'
 
-    # Remove or modify the step if requirements.txt is not needed
-    # - name: Install dependencies
-    #   run: |
-    #     pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install -r backend/requirements.txt
 
     - name: Run Python script
       run: |
-        echo "Running job on push"
-        python your_script.py
+        cd backend
+        python main.py
