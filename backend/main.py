@@ -11,6 +11,9 @@ import uvicorn
 
 
 app = FastAPI()
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to DevDoses"}
 
 # Define Pydantic model for the registration request
 class UserRegistration(BaseModel):
@@ -53,4 +56,4 @@ if __name__ == "__main__":
     if args.job:
         schedule_job()
     else:
-        uvicorn.run(app, host="0.0.0.0", port=8000)
+        uvicorn.run(app, host="0.0.0.0", port=10000)
