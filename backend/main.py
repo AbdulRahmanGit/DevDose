@@ -34,6 +34,9 @@ class UserRegistration(BaseModel):
     email: str
     language: str
     difficulty: str
+@app.get("/register")
+def read_root():
+    return {"Message": "Hello world"}
 
 @app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
@@ -78,8 +81,9 @@ def start_scheduler():
     scheduler_thread.start()
 
 if __name__ == "__main__":
+    schedule_job()
     # Start the scheduler thread
-    start_scheduler()
+    #start_scheduler()
     #temp 
     #job()
     # Run the FastAPI server
