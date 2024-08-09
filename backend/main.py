@@ -8,12 +8,13 @@ from jinja2 import Template
 from fastapi.middleware.cors import CORSMiddleware
 import schedule
 import time
+import threading
 import uvicorn
 
-
 app = FastAPI()
+
 # Add CORS middleware
-orig_cors_origins = ["*"] # Add the port if needed
+orig_cors_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to DevDoses"}
@@ -35,8 +37,14 @@ class UserRegistration(BaseModel):
 
 @app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
-    add_user(db, user.name, user.email, user.language, user.difficulty)
-    return {"message": "User registered successfully"}
+    try:
+        add_user(db, user.name, user.email, user.language, user.difficulty)
+        send_email(f"Welcome to DevDoses, {user.name}!",
+                   "Thank you for registering. You'll start receiving tips soon!",
+                   user.email)
+        return {"message": "User registered successfully, check your mail"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 def job():
     db = SessionLocal()
@@ -51,20 +59,23 @@ def job():
             send_email(f"{difficulty.capitalize()} {language} Tips", html_content, email)
     finally:
         db.close()
+
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="Start the FastAPI application or run scheduled job.")
-    parser.add_argument('--job', action='store_true', help="Run the scheduled job")
-    args = parser.parse_args()
+# Start the scheduling in a separate thread
+def start_scheduler():
+    scheduler_thread = threading.Thread(target=schedule_job)
+    scheduler_thread.daemon = True
+    scheduler_thread.start()
 
-    if args.job:
-        job()
-        #schedule_job()
-    else:
-        uvicorn.run(app, host="0.0.0.0", port=10000)
+if __name__ == "__main__":
+    # Start the scheduler thread
+    #start_scheduler()
+    #temp 
+    job()
+    # Run the FastAPI server
+    uvicorn.run(app, host="0.0.0.0", port=10000)
