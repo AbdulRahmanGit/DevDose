@@ -22,7 +22,7 @@ class UserRegistration(BaseModel):
     language: str
     difficulty: str
 
-@app.post("/api/register")
+@app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
     add_user(db, user.name, user.email, user.language, user.difficulty)
     return {"message": "User registered successfully"}
