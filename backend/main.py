@@ -5,12 +5,23 @@ from database import SessionLocal, get_db, add_user, fetch_users
 from email_utils import send_email
 from generator import generate_tips
 from jinja2 import Template
+from fastapi.middleware.cors import CORSMiddleware
 import schedule
 import time
 import uvicorn
 
 
 app = FastAPI()
+# Add CORS middleware
+orig_cors_origins = ["*"] # Add the port if needed
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=orig_cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/")
 def read_root():
     return {"message": "Welcome to DevDoses"}
