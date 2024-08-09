@@ -23,6 +23,8 @@ jobs:
         pip install -r backend/requirements.txt
 
     - name: Run Python script
+      env:
+        DATABASE_URL: ${{ secrets.POSTGRES_URL }}  # Use the secret here
       run: |
         cd backend
         python main.py
