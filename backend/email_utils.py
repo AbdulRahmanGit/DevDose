@@ -7,13 +7,13 @@ from generator import generate_tips
 from dotenv import load_dotenv
 import os
 load_dotenv()
-def send_email(subject, body, to_email):
+def send_email(subject, body, recipient):
     from_email = os.getenv("EMAIL_ADDRESS")
     password = os.getenv("EMAIL_PASSWORD")
 
     msg = MIMEMultipart()
     msg['From'] = from_email
-    msg['To'] = to_email
+    msg['To'] = recipient
     msg['Subject'] = subject
 
     msg.attach(MIMEText(body, 'html'))
@@ -23,9 +23,9 @@ def send_email(subject, body, to_email):
         server.starttls()
         server.login(from_email, password)
         text = msg.as_string()
-        server.sendmail(from_email, to_email, text)
+        server.sendmail(from_email, recipient, text)
         server.quit()
-        print("Email sent successfully")
+        print(f"Email sent to {recipient} successfully")
     except Exception as e:
         print(f"Failed to send email: {e}")
 
@@ -40,7 +40,7 @@ def job():
         name, email, language, difficulty = user
         tips = generate_tips(name, language, difficulty)
         
-        with open('templates/email_template.html') as file:
+        with open('email_template.html') as file:
             template = Template(file.read())
         
         html_content = template.render(subject=f"{difficulty.capitalize()} {language} Tips", body=tips, name=name)

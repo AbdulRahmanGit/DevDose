@@ -10,7 +10,6 @@ import schedule
 import time
 import threading
 import uvicorn
-
 app = FastAPI()
 
 # Add CORS middleware
@@ -34,7 +33,7 @@ class UserRegistration(BaseModel):
     email: str
     language: str
     difficulty: str
-@app.get("/register")
+'''@app.get("/register")
 def read_root():
     return {"Message": "Hello world"}
 
@@ -53,7 +52,7 @@ def register_user(user: UserRegistration, db: Session = Depends(get_db)):
         return {"message": "User registered successfully, check your mail"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
+'''
 @app.get("/job")
 def job():
     db = SessionLocal()
@@ -70,10 +69,10 @@ def job():
         db.close()
 def read_root():
     return {"Message": "Hello world"}
-
+@app.get("/schedule")
 def schedule_job():
-    #schedule.every().day.at("09:00").do(job)
-    schedule.every().minute.do(job)
+    schedule.every().day.at("09:00").do(job)
+    #schedule.every().minute.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
@@ -84,8 +83,6 @@ def start_scheduler():
     scheduler_thread.daemon = True
     scheduler_thread.start()
 def main():
-    
-
     uvicorn.run(app, host="0.0.0.0", port=8000)
 if __name__ == "__main__":
     #schedule_job()

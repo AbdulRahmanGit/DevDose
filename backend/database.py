@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine, Column, String, Integer,inspect
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import create_engine, Column, String, Integer, inspect
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
 import os
 from dotenv import load_dotenv
 from typing import Generator
@@ -21,7 +20,6 @@ DATABASE_URL = os.getenv("POSTGRES_URL") or f"postgresql://{DB_USER}:{DB_PASSWOR
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set. Ensure environment variables are correctly configured.")
 
-
 # Create the database engine
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -37,6 +35,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     language = Column(String)
     difficulty = Column(String)
+
 # Create the database tables
 def create_user_table():
     """
@@ -55,7 +54,7 @@ def create_user_table():
     except Exception as e:
         print(f"Failed to create table: {e}")
 
-def add_user(db: Session,name: str, email: str, language: str, difficulty: str):
+def add_user(db: Session, name: str, email: str, language: str, difficulty: str):
     """
     Add a new user to the PostgreSQL database.
 
@@ -65,7 +64,6 @@ def add_user(db: Session,name: str, email: str, language: str, difficulty: str):
         language (str): The user's desired programming language.
         difficulty (str): The user's desired difficulty level.
     """
-    #db = SessionLocal()
     try:
         user = User(name=name, email=email, language=language, difficulty=difficulty)
         db.add(user)
@@ -75,8 +73,6 @@ def add_user(db: Session,name: str, email: str, language: str, difficulty: str):
     except Exception as e:
         db.rollback()
         print(f"Failed to add user: {e}")
-    finally:
-        db.close()
 
 def fetch_users(db: Session) -> list:
     """
@@ -85,15 +81,13 @@ def fetch_users(db: Session) -> list:
     Returns:
         list: A list of user objects.
     """
-    #db = SessionLocal()
+    db = SessionLocal()
     try:
         users = db.query(User).all()
         return users
     except Exception as e:
         print(f"Failed to fetch users: {e}")
         return []
-    finally:
-        db.close()
 
 def get_db() -> Generator[Session, None, None]:
     """
@@ -107,6 +101,7 @@ def get_db() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     create_user_table()
