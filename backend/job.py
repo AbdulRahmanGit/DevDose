@@ -33,27 +33,8 @@ class UserRegistration(BaseModel):
     email: str
     language: str
     difficulty: str
-'''@app.get("/register")
-def read_root():
-    return {"Message": "Hello world"}
 
-@app.post("/register")
-def register_user(user: UserRegistration, db: Session = Depends(get_db)):
-    try:
-        # Check if the user already exists
-        existing_user = db.query(User).filter(User.email == user.email).first()
-        print(existing_user)
-        if existing_user:
-            return {"message": "User already registered with this email."}
-        add_user(db, user.name, user.email, user.language, user.difficulty)
-        send_email(subject=f"Welcome to DevDoses, {user.name}!",
-            body="Thank you for registering. You'll start receiving tips soon!",
-            recipient=user.email)
-        return {"message": "User registered successfully, check your mail"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-'''
-@app.get("/job")
+@app.post("/job")
 def job():
     db = SessionLocal()
     try:
@@ -67,9 +48,7 @@ def job():
             send_email(f"{difficulty.capitalize()} {language} Tips", html_content, email)
     finally:
         db.close()
-def read_root():
-    return {"Message": "Hello world"}
-@app.get("/schedule")
+@app.post("/schedule")
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
     #schedule.every().minute.do(job)
@@ -83,7 +62,7 @@ def start_scheduler():
     scheduler_thread.daemon = True
     scheduler_thread.start()
 def main():
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    job()
 if __name__ == "__main__":
     #schedule_job()
     # Start the scheduler thread

@@ -1,24 +1,26 @@
 async function registerUser(data) {
     try {
-        const response = await fetch('https://llm-email-automation-back.onrender.com/register', { //https://llm-email-automation-back.onrender.com/register
+        const response = await fetch('http://localhost:8000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        }); 
+        });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.ok) {
+            // Redirect to /job if registration is successful
+            const result = await response.json();
+            console.log('Registration successful:', result);
+            // Handle successful registration, e.g., redirect or show a success message
+            alert(result.message);
+            window.location.href = '/job';
+        } else {
+            const errorData = await response.json();
+            alert(errorData.message || 'Registration failed');
         }
-
-        const result = await response.json();
-        console.log('Registration successful:', result);
-        // Handle successful registration, e.g., redirect or show a success message
-        alert(result.message);
     } catch (error) {
         console.error('Registration failed:', error);
-        // Handle errors, e.g., show an error message
         alert('Registration failed. Please try again.');
     }
 }
