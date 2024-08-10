@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/job")
 def read_root():
     return {"message": "Welcome to DevDoses"}
 
