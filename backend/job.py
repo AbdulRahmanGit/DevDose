@@ -22,6 +22,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+def read():
+    return {"message": "email is being generated for demo, please wait few mins.."}
 
 @app.get("/job")
 def read_root():
