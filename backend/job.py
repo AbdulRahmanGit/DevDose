@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from database import SessionLocal, get_db, add_user, fetch_users, User
+from database import SessionLocal, get_db, fetch_users, User
 from email_utils import send_email
 from generator import generate_tips
 from jinja2 import Template
@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import schedule
 import time
 import threading
-import uvicorn
 app = FastAPI()
 
 # Add CORS middleware
