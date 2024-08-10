@@ -51,6 +51,7 @@ def job():
 @app.post("/schedule")
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
+    print("scheduled at 9 AM")
     #schedule.every().minute.do(job)
     while True:
         schedule.run_pending()

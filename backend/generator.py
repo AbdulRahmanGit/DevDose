@@ -32,7 +32,7 @@ def generate_tips(name, language, difficulty):
     # Create the context and question for the model
     variables = {"name": name,"language": language, "difficulty": difficulty}
     print("generating content.")
-    loading_animation()
+    loading_animation(60)
     # Invoke the chain with the variables
     result = chain.invoke(variables)
     print("result generated")
