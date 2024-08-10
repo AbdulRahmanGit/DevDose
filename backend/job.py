@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+#from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from database import SessionLocal, get_db, fetch_users, User
@@ -9,8 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import schedule
 import time
 import threading
+'''
 app = FastAPI()
-
 # Add CORS middleware
 orig_cors_origins = ["*"]
 
@@ -21,13 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-@app.get("/")
-def read():
-    return {"message": "email is being generated for demo, please wait few mins.."}
-
-@app.get("/job")
-def read_root():
-    return {"message": "Welcome to DevDoses"}
+'''
 
 # Define Pydantic model for the registration request
 class UserRegistration(BaseModel):
@@ -36,7 +30,6 @@ class UserRegistration(BaseModel):
     language: str
     difficulty: str
 
-@app.post("/job")
 def job():
     db = SessionLocal()
     try:
@@ -50,7 +43,7 @@ def job():
             send_email(f"{difficulty.capitalize()} {language} Tips", html_content, email)
     finally:
         db.close()
-@app.post("/schedule")
+
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
     print("scheduled at 9 AM")
