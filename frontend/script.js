@@ -9,12 +9,11 @@ async function registerUser(data) {
         });
 
         if (response.ok) {
-            // Redirect to /job if registration is successful
             const result = await response.json();
             console.log('Registration successful:', result);
-            // Handle successful registration, e.g., redirect or show a success message
+            // Show a success message and redirect
             alert(result.message);
-            window.location.href = '/https://devdoses-worker.onrender.com/job';
+            window.location.href = 'https://devdoses-worker.onrender.com/job';
         } else {
             const errorData = await response.json();
             alert(errorData.message || 'Registration failed');
