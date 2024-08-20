@@ -178,5 +178,5 @@ def get_db() -> Generator[Session, None, None]:
 
 
 if __name__ == "__main__":
-    #create_user_table()
+    create_user_table()
     
