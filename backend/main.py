@@ -44,7 +44,9 @@ class UserUpdate(BaseModel):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to DevDoses"}
-
+@app.get("/register")
+def read_root():
+    return {"message": "Welcome to DevDoses"}
 @app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
@@ -214,7 +216,7 @@ class UserDetail(BaseModel):
     language: str
     difficulty: str
 
-@app.post("/fetch-details", response_model=UserDetail)
+@app.get("/fetch-details", response_model=UserDetail)
 async def fetch_user_details(email: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == email).first()
     if user:

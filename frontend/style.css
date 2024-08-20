@@ -43,7 +43,22 @@
   .flex-flex {
     display: flex;
   }
-  
+  .header {
+    background-color: #5469d4;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  .header a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+  }
+  .header a:hover {
+    color: aqua;
+  }
   .align-center {
     align-items: center; 
   }
@@ -56,6 +71,22 @@
   .box-root {
     box-sizing: border-box;
   }
+  /* Loading bar style */
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background-color: #007bff; /* Adjust color as needed */
+  z-index: 9999;
+  transition: width 30s ease;
+}
+
+.loading-bar-active {
+  width: 100%;
+}
+
   
   .flex-direction--column {
     -ms-flex-direction: column;
