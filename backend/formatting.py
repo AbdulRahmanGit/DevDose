@@ -12,7 +12,7 @@ def format_code_snippets(body):
         str: The formatted text with proper code snippet and bold text formatting.
     """
     print("formating is going on...")
-    loading_animation(10)
+    loading_animation(1)
     # Format code snippets
     formatted_body = body.replace('```', '<pre class="code-snippet"><code>').replace('```', '</code></pre>')
     

@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine, Column, String, Integer, inspect
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from sqlalchemy.exc import SQLAlchemyError
 import os
 from dotenv import load_dotenv
-from typing import Generator
+from typing import Generator, Optional
 
 # Load environment variables
 load_dotenv()
@@ -23,7 +24,7 @@ if not DATABASE_URL:
 # Create the database engine
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+session = SessionLocal()
 # Create a base class for our models
 Base = declarative_base()
 
@@ -73,7 +74,55 @@ def add_user(db: Session, name: str, email: str, language: str, difficulty: str)
     except Exception as e:
         db.rollback()
         print(f"Failed to add user: {e}")
+def delete_user(db: Session, email: str):
+    """
+    Delete a user from the PostgreSQL database.
 
+    Args:
+        email (str): The user's email address.
+    """
+    try:
+        user = db.query(User).filter_by(email=email).first()
+        
+        if user:
+            db.delete(user)
+            db.commit()
+            print(f"User with email {email} deleted successfully.")
+        else:
+            print(f"User with email {email} not found.")
+    except Exception as e:
+        db.rollback()
+        print(f"Failed to delete user: {e}")
+def update_user(db: Session, email: str, name: Optional[str] = None, language: Optional[str] = None, difficulty: Optional[str] = None):
+    """
+    Update user details in the PostgreSQL database.
+
+    Args:
+        email (str): The user's email address.
+        name (str): The new name for the user (optional).
+        language (str): The new programming language (optional).
+        difficulty (str): The new difficulty level (optional).
+        proficiency (str): The new proficiency level (optional).
+    """
+    try:
+        user = db.query(User).filter_by(email=email).first()
+        
+        if user:
+            if name is not None:
+                user.name = name
+            if language is not None:
+                user.language = language
+            if difficulty is not None:
+                user.difficulty = difficulty
+            
+
+            db.commit()
+            print(f"User with email {email} updated successfully.")
+        else:
+            print(f"User with email {email} not found.")
+    except Exception as e:
+        db.rollback()
+        print(f"Failed to update user: {e}")
 def fetch_users(db: Session) -> list:
     """
     Fetch all registered users from the PostgreSQL database.
@@ -88,6 +137,31 @@ def fetch_users(db: Session) -> list:
     except Exception as e:
         print(f"Failed to fetch users: {e}")
         return []
+def fetch_details(db: Session, email: str) -> dict:
+    """
+    Fetch a single user's details by their email from the PostgreSQL database.
+
+    Args:
+        db (Session): The SQLAlchemy session object.
+        email (str): The email address of the user to fetch.
+
+    Returns:
+        dict: A dictionary containing the user's details if found, else an empty dictionary.
+    """
+    try:
+        user = db.query(User).filter(User.email == email).first()
+        if user:
+            return {
+                "name": user.name,
+                "language": user.language,
+                "difficulty": user.difficulty
+            }
+        else:
+            return {"error": "User not found"}
+    except SQLAlchemyError as e:
+        print(f"Failed to fetch user: {e}")
+        return {"error": "Failed to fetch user details"}
+
 
 def get_db() -> Generator[Session, None, None]:
     """
@@ -104,4 +178,5 @@ def get_db() -> Generator[Session, None, None]:
 
 
 if __name__ == "__main__":
-    create_user_table()
+    #create_user_table()
+    
