@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
                     console.log('Registration successful:', result);
                     alert(result.message);
-                    window.location.href = 'https://devdoses-worker.onrender.com/'; // Redirect after success
+                    window.location.href = 'https://devdoses-worker.onrender.com/job'; // Redirect after success
                 } else {
                     const errorData = await response.json();
                     alert(errorData.detail || 'Registration failed');

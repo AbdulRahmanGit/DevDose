@@ -80,7 +80,7 @@
   width: 0;
   background-color: #007bff; /* Adjust color as needed */
   z-index: 9999;
-  transition: width 30s ease;
+  transition: width 3s ease;
 }
 
 .loading-bar-active {

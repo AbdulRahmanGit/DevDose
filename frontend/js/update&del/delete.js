@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
                     alert(result.message);
                     // Redirect to OTP verification page
-                    window.location.href = '/frontend/templates/verify_del.html';
+                    window.location.href = '/templates/verify_del.html';
                 } else {
                     const errorData = await response.json();
                     alert(errorData.detail || 'Failed to request OTP');

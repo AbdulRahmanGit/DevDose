@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
                     alert(result.message);
                     // Redirect or display a success message as needed
-                    window.location.href = '/frontend'; // Redirect to home or another page
+                    window.location.href = '/'; // Redirect to home or another page
                 } else {
                     const errorData = await response.json();
                     alert(errorData.detail || 'OTP verification failed'); // Use detail if returned by backend
