@@ -24,5 +24,15 @@ jobs:
         cd backend pip install -r requirements.txt
 
     - name: Run DevDoses Job
+      env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}  # Use secrets for sensitive data
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          API_KEY: ${{ secrets.API_KEY }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
       run: |
         python /backend/job.py  # Replace with the actual path to your job script
