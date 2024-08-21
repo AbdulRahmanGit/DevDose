@@ -26,4 +26,4 @@ jobs:
 
     - name: Run DevDoses Job
       run: |
-        python /backend/job.py  # Replace with the actual path to your job script
+        python backend/job.py  # Replace with the actual path to your job script
