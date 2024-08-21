@@ -35,7 +35,7 @@ def generate_tips(name, language, difficulty):
         prompt,
         generation_config=genai.GenerationConfig(
             max_output_tokens=1000,
-            temperature=0.1,
+            temperature=0.4,
         )
     )
     print("Result generated")
