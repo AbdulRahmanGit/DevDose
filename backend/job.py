@@ -50,7 +50,7 @@ def job():
                 tips = generate_tips(name, language, difficulty)
 
                 # Ensure the template file exists
-                template_path = os.path.join(os.path.dirname(__file__), 'backend', 'email_template.html')
+                template_path = os.path.join(os.path.dirname(__file__), 'email_template.html')
 
                 if os.path.isfile(template_path):
                     print(f"Template file found at: {template_path}")
