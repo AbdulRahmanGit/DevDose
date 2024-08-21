@@ -51,27 +51,31 @@ def job():
 
                 # Ensure the template file exists
                 template_path = os.path.join(os.path.dirname(__file__), 'backend', 'email_template.html')
-                if not os.path.isfile(template_path):
-                    print(f"Template file not found: {template_path}")
+
+                if os.path.isfile(template_path):
+                    print(f"Template file found at: {template_path}")
+                    
+                    with open(template_path) as file:
+                        template = Template(file.read())
+
+                    # Define subject separately and render with the template
+                    subject = f"DevDoses Daily Digest - Level Up Your {difficulty} {language} Skills!"
+                    unsubscribe_link = f"https://llm-email-automation.vercel.app/"
+                    update_link = f"https://llm-email-automation.vercel.app/"
+                    html_content = template.render(
+                        subject=subject,
+                        body=tips,
+                        name=name,
+                        unsubscribe_link=unsubscribe_link,
+                        update_link=update_link
+
+                    )
+
+                    send_email(subject, html_content, email)
+                else:
+                    print(f"Template file not found at: {template_path}")
                     continue
 
-                with open(template_path) as file:
-                    template = Template(file.read())
-
-                # Define subject separately and render with the template
-                subject = f"DevDoses Daily Digest - Level Up Your {difficulty} {language} Skills!"
-                unsubscribe_link = f"https://llm-email-automation.vercel.app/"
-                update_link = f"https://llm-email-automation.vercel.app/"
-                html_content = template.render(
-                    subject=subject,
-                    body=tips,
-                    name=name,
-                    unsubscribe_link=unsubscribe_link,
-                    update_link=update_link
-
-                )
-
-                send_email(subject, html_content, email)
 
             except Exception as e:
                 print(f"Error processing user {user.name}: {e}")
