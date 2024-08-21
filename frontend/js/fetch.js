@@ -1,5 +1,3 @@
-// fetch.js
-
 // Function to show and hide the loading indicator
 function toggleLoading(show) {
     const loadingBar = document.getElementById('loading-bar');
@@ -17,7 +15,7 @@ async function fetchUserDetails(email) {
     toggleLoading(true); // Show loading indicator
 
     try {
-        const response = await fetch('https://llm-email-automation-back.onrender.com/fetch-details?email=${encodeURIComponent(email)}', {
+        const response = await fetch(`https://llm-email-automation-back.onrender.com/fetch-details?email=${encodeURIComponent(email)}`, {
             method: 'GET',
         });
 
