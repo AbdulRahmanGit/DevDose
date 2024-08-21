@@ -22,6 +22,7 @@ def generate_tips(name, language, difficulty):
     - Greet {name} initially and at the end to make it more personalized.
     - Highlight important points using bold text.
     - Add Leetcode Problems that match the difficulty level.
+    - Make sure to keep reminders unique and non-repititive.
     - Ensure the overall content is engaging, educational, and formatted clearly for inclusion in an email.
     
     '''
