@@ -3,7 +3,7 @@ import os
 from spinner import loading_animation
 from dotenv import load_dotenv
 from formatting import format_code_snippets
-
+import time
 # Load environment variables
 load_dotenv()
 genai.configure(api_key=os.environ["API_KEY"])
@@ -28,7 +28,7 @@ def generate_tips(name, language, difficulty):
 
     print("Generating email content for all registered users.")
     loading_animation(1)  # Assuming this is a custom function you have
-
+    time.sleep(1)
     # Invoke the Gemini model to generate content
     response = model.generate_content(
         prompt,
