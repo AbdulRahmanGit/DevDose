@@ -60,8 +60,8 @@ def job():
 
                     # Define subject separately and render with the template
                     subject = f"DevDoses Daily Digest - Level Up Your {difficulty} {language} Skills!"
-                    unsubscribe_link = f"https://llm-email-automation.vercel.app/"
-                    update_link = f"https://llm-email-automation.vercel.app/"
+                    unsubscribe_link = f"https://devdoses.vercel.app/templates/delete.html"
+                    update_link = f"https://devdoses.vercel.app/templates/update.html"
                     html_content = template.render(
                         subject=subject,
                         body=tips,
