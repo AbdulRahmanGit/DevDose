@@ -33,9 +33,8 @@ class UserRegistration(BaseModel):
     language: str
     difficulty: str
 
-import os
-import re
-from jinja2 import Template
+
+
 
 def job():
     db = SessionLocal()
@@ -51,7 +50,7 @@ def job():
                 tips = generate_tips(name, language, difficulty)
 
                 # Ensure the template file exists
-                template_path = 'email_template.html'
+                template_path = os.path.join(os.path.dirname(__file__), 'backend', 'email_template.html')
                 if not os.path.isfile(template_path):
                     print(f"Template file not found: {template_path}")
                     continue
