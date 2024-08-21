@@ -21,7 +21,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd backend pip install -r requirements.txt
+        cd backend
+        pip install -r requirements.txt
 
     - name: Run DevDoses Job
       env:
@@ -35,4 +36,4 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
       run: |
-        python /backend/job.py  # Replace with the actual path to your job script
+        python backend/job.py  # Replace with the actual path to your job script
