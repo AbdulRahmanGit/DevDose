@@ -68,7 +68,19 @@ def job():
             template = Template(file.read())
         
           # Render the template
-        rendered_content = template.render(body=tips, name=name)
+        rendered_content = template.render(headerTitle=tips['headerTitle'],
+    introductionGreeting=tips['introductionGreeting'],
+    introductionMessage=tips['introductionMessage'],
+    programmingTipTitle=tips['programmingTipTitle'],
+    programmingTipDescription=tips['programmingTipDescription'],
+    programmingTipCode=tips['programmingTipCode'],
+    programmingTipOutput=tips['programmingTipOutput'],
+    dsaChallengeTitle=tips['dsaChallengeTitle'],
+    dsaChallengeProblem=tips['dsaChallengeProblem'],
+    dsaChallengeSolutionSteps=tips['dsaChallengeSolutionSteps'],
+    dsaChallengeCode=tips['dsaChallengeCode'],
+    footerMessage=tips['footerMessage'],
+        )
         
         # Extract the subject using regex
         subject_match = re.search(r'^## Subject:\s*(.*)$', rendered_content, re.MULTILINE)
@@ -81,4 +93,5 @@ def job():
             continue
         
         # Send the email
-        send_email(subject, cleaned_html_content, email)
+        send_email(subject, rendered_content, email)
+

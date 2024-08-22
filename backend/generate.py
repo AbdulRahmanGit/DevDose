@@ -1,53 +1,75 @@
 import google.generativeai as genai
 import os
-from spinner import loading_animation
 from dotenv import load_dotenv
-from formatting import format_code_snippets
-import time
+import typing_extensions
+import json
 # Load environment variables
 load_dotenv()
-genai.configure(api_key=os.environ["API_KEY"])
+api_key = os.getenv("API_KEY")
+
+# Define the schema for the JSON response
+class ProgrammingTip(typing_extensions.TypedDict):
+    header_title: str
+    introduction_greeting: str
+    introduction_message: str
+    programming_tip_title: str
+    programming_tip_description: str
+    programming_tip_code: str
+    programming_tip_output: str
+    dsa_challenge_title: str
+    dsa_challenge_problem: str
+    dsa_challenge_solution_steps: str
+    dsa_challenge_code: str
+    footer_message: str
 
 # Initialize the Gemini model
-model = genai.GenerativeModel('gemini-1.5-flash')
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel(
+    'gemini-1.5-flash',
+    generation_config={
+        "response_mime_type": "application/json",
+        "response_schema": ProgrammingTip,
+        "max_output_tokens": 8192
+    }
+)
 
 def generate_tips(name, language, difficulty):
-    # Create the context and question for the model
     prompt = f'''
-    You are an automated email assistant by the name DevDoses responsible for sending daily reminders to {name}. Please generate content based on the following criteria:
+    You are an automated email assistant named Devdose, responsible for generating email content. Please generate content for the following placeholders based on the criteria provided:
 
-    1. **Programming Tips**: Provide tips specifically for {language} at the {difficulty} level. Ensure the tips are practical, insightful, and useful for someone at the specified difficulty level. Use appropriate code snippets in {language} where necessary.
-    
-    2. **DSA Questions**: Include DSA questions relevant to {language} at the {difficulty} level. Provide detailed solutions and explanations for each question. The questions should be suited to the {difficulty} level specified.
-    - Greet {name} initially and at the end to make it more personalized.
-    - Highlight important points using bold text.
-    - Add Leetcode Problems that match the difficulty level.
-    - Make sure to keep reminders unique and non-repititive.
-    - Ensure the overall content is engaging, educational, and formatted clearly for inclusion in an email.
-    
+    1. **Recipient Name**: {name}
+    2. **Programming Language**: {language}
+    3. **Difficulty Level**: {difficulty}
+
+
+    Ensure that each piece of content is well-structured, educational, and engaging. Output the content in JSON format with the following structure:
+    {{
+        "header_title": f"Devdose Daily Digest - Level Up Your {language} Skills!",
+        "introduction_greeting": f"Hello {name},",
+        "introduction_message": f"Hope you're having a productive day! Let's dive into some {language} goodness to keep your coding muscles flexing.",
+        "programming_tip_title": f"💡 Programming Tip: Practical tip for {language} at the {difficulty} level",
+        "programming_tip_description": "Detailed description of a practical tip.",
+        "programming_tip_code": "code example",
+        "programming_tip_output": "expected output",
+        "dsa_challenge_title": f"🔢 DSA Challenge: {language} at the {difficulty} level",
+        "dsa_challenge_problem": "Describe the DSA problem.",
+        "dsa_challenge_solution_steps": ["Step 1", "Step 2"],  # Ensure this is a list
+        "dsa_challenge_code": "solution code",
+        "footer_message": f"Keep coding and keep learning, {name}!"
+    }}
     '''
+    
+    try:
+        # Generate the content using the model
+        response = model.generate_content(prompt)
+        
+        tips = json.loads(response.text)
 
-    print("Generating email content for all registered users.")
-    loading_animation(1)  # Assuming this is a custom function you have
-    time.sleep(1)
-    # Invoke the Gemini model to generate content
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.GenerationConfig(
-            max_output_tokens=1000,
-            temperature=0.4,
-        )
-    )
-    print("Result generated")
-    # Format the result to include code snippets properly
-    formatted_result = format_code_snippets(response.text)  # Assuming this is a custom function you have
-
-    print("Reminder ready to mail")
-    return formatted_result
-#generate_tips("anas", "java", "mid senior level")
-
-
-
-
-
-
+        # Print the parsed dictionary for debugging
+        #print("Parsed JSON Dictionary:")
+        
+        return tips
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None

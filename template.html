@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devdose Daily Digest</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #1E90FF;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 18px;
+            color: #1E90FF;
+            margin-bottom: 10px;
+        }
+        .section p {
+            margin: 10px 0;
+        }
+        .code-snippet {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #1E90FF;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Devdose Daily Digest - Level Up Your Python Skills!</h1>
+        </div>
+        <div class="section">
+            <h2>Hey Anas,</h2>
+            <p>Hope you're having a productive day!</p>
+            <p>Let's dive into some Python goodness to keep your coding muscles flexing.</p>
+        </div>
+        <div class="section">
+            <h2>💡 Programming Tip: Leveraging Python's <code>collections.defaultdict</code> for Efficient Data Handling</h2>
+            <p>Often, we encounter scenarios where we need to store data in a dictionary but want to avoid the <code>KeyError</code> exception when accessing a key that doesn't exist. This is where <code>collections.defaultdict</code> comes in handy. It allows you to specify a default value for keys that are not yet present in the dictionary.</p>
+            <div class="code-snippet">
+                <p><b>Example:</b></p>
+                <pre>
+from collections import defaultdict
+
+# Create a defaultdict that uses a list as the default value
+word_counts = defaultdict(list)
+
+# Add words to the dictionary
+word_counts["hello"].append(1)
+word_counts["world"].append(2)
+word_counts["hello"].append(3)
+
+# Accessing non-existent keys won't raise an error
+word_counts["new_word"].append(4)
+
+# Print the dictionary
+print(word_counts)
+                </pre>
+            </div>
+            <p><b>Output:</b></p>
+            <div class="code-snippet">
+                <pre>
+defaultdict(<class 'list'>, {'hello': [1, 3], 'world': [2], 'new_word': [4]})
+                </pre>
+            </div>
+        </div>
+        <div class="section">
+            <h2>🔢 DSA Challenge: Implement a Stack using Two Queues</h2>
+            <p><b>Problem:</b> Design a stack that supports push, pop, top, and empty operations. Implement these operations using two queues.</p>
+            <p><b>Solution:</b></p>
+            <ol>
+                <li><b>Push:</b> Add the new element to <code>q1</code>.</li>
+                <li><b>Pop:</b> Move all elements from <code>q1</code> to <code>q2</code> except the last one. Pop the last element from <code>q1</code>. Swap <code>q1</code> and <code>q2</code>.</li>
+                <li><b>Top:</b> Return the front element of <code>q1</code>.</li>
+                <li><b>Empty:</b> Check if <code>q1</code> is empty.</li>
+            </ol>
+            <div class="code-snippet">
+                <pre>
+from collections import deque
+
+class MyStack:
+    def __init__(self):
+        self.q1 = deque()
+        self.q2 = deque()
+
+    def push(self, x):
+        self.q1.append(x)
+
+    def pop(self):
+        if self.empty():
+            return None
+        while len(self.q1) > 1:
+            self.q2.append(self.q1.popleft())
+        top = self.q1.popleft()
+        self.q1, self.q2 = self.q2, self.q1
+        return top
+
+    def top(self):
+        if self.empty():
+            return None
+        return self.q1[0]
+
+    def empty(self):
+        return len(self.q1) == 0
+                </pre>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Keep coding and keep learning, Anas!</p>
+        </div>
+    </div>
+</body>
+</html>

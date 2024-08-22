@@ -43,10 +43,10 @@ class UserUpdate(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to DevDoses"}
+    return {"message": "Welcome to Devdose"}
 @app.get("/register")
 def read_root():
-    return {"message": "Welcome to DevDoses"}
+    return {"message": "Welcome to Devdose"}
 @app.post("/register")
 def register_user(user: UserRegistration, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
@@ -56,7 +56,7 @@ def register_user(user: UserRegistration, db: Session = Depends(get_db)):
     try:
         add_user(db, user.name, user.email, user.language, user.difficulty)
         send_email(
-            subject=f"Welcome to DevDoses, {user.name}!",
+            subject=f"Welcome to Devdose, {user.name}!",
             body=f"Thank you for registering. You'll start receiving {user.language}tips of {user.difficulty}level soon!",
             recipient=user.email
         )
