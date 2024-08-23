@@ -63,7 +63,7 @@ ollama==0.3.1
 orjson==3.10.6
 packaging==24.0
 pathspec==0.10.1
-Pillow==10.0.0
+Pillow==10.3.0
 proto-plus==1.24.0
 protobuf==4.25.4
 psycopg2==2.9.7
