@@ -29,7 +29,8 @@ model = genai.GenerativeModel(
     generation_config={
         "response_mime_type": "application/json",
         "response_schema": ProgrammingTip,
-        "max_output_tokens": 8192
+        "max_output_tokens": 8192,
+        "temperature": 0.4
     }
 )
 
@@ -67,7 +68,7 @@ def generate_tips(name, language, difficulty):
 
         # Print the parsed dictionary for debugging
         #print("Parsed JSON Dictionary:")
-        
+        print(tips)
         return tips
     
     except Exception as e:

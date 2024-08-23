@@ -59,8 +59,8 @@ def job():
 
                     # Define subject separately and render with the template
                     subject = f"Devdose Daily Digest - Level Up Your {difficulty} {language} Skills!"
-                    unsubscribe_link = f"https://devdoses.vercel.app/templates/delete.html"
-                    update_link = f"https://devdoses.vercel.app/templates/update.html"
+                    unsubscribe_link = f"https://devdose.vercel.app/templates/delete.html"
+                    update_link = f"https://devdose.vercel.app/templates/update.html"
                      
                     context = {
                         "header_title": tips.get("header_title", ""),
