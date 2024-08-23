@@ -29,7 +29,7 @@
     overflow: hidden;
   }
   
-  .loginbackground {
+  .loginbackground, .updatebackground , .deletebackground, .fetchbackground{
     min-height: 692px;
     position: fixed;
     bottom: 0;
@@ -93,7 +93,7 @@
     flex-direction: column;
   }
   
-  .loginbackground-gridContainer {
+  .loginbackground-gridContainer, .deletebackground-gridContainer, .updatebackground-gridContainer, .fetchbackground-gridContainer{
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: [start] 1fr [left-gutter] (86.6px)[16] [left-gutter] 1fr [end];

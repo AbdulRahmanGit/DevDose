@@ -99,7 +99,7 @@ def job():
 
     finally:
         db.close()
-
+'''
 def schedule_job():
     schedule.every().day.at("09:00").do(job)
     print("scheduled at 9 AM")
@@ -113,6 +113,7 @@ def start_scheduler():
     scheduler_thread = threading.Thread(target=schedule_job)
     scheduler_thread.daemon = True
     scheduler_thread.start()
+'''
 def main():
     job()
 if __name__ == "__main__":

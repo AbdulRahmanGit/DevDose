@@ -30,7 +30,7 @@ model = genai.GenerativeModel(
         "response_mime_type": "application/json",
         "response_schema": ProgrammingTip,
         "max_output_tokens": 8192,
-        "temperature": 0.4
+        "temperature": 0.5
     }
 )
 
@@ -43,7 +43,7 @@ def generate_tips(name, language, difficulty):
     3. **Difficulty Level**: {difficulty}
 
 
-    Ensure that each piece of content is well-structured, educational, and engaging. Output the content in JSON format with the following structure:
+    Ensure that each piece of content is well-structured, educational, non repititive and engaging. Output the content in JSON format with the following structure:
     {{
         "header_title": f"Devdose Daily Digest - Level Up Your {language} Skills!",
         "introduction_greeting": f"Hello {name},",
