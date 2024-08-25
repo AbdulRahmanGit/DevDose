@@ -20,13 +20,24 @@ async function fetchUserDetails(email) {
         });
 
         if (!response.ok) {
+            if (response.status === 404){
+                throw new Error("User Not Found")
+            }
+            else{
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
+    }
 
         return await response.json();
     } catch (error) {
+        if (error.message ===  'User Not Found'){
+            console.error("User Not Found")
+            alert('User Not Registered')
+        }
+        else{
         console.error('Fetch request failed:', error);
         alert('Request failed. Please try again.');
+        }
         throw error; // Re-throw the error for further handling
     } finally {
         toggleLoading(false); // Hide loading indicator

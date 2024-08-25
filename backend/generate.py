@@ -31,7 +31,7 @@ model = genai.GenerativeModel(
         "response_schema": ProgrammingTip,
         "max_output_tokens": 8192,
         "temperature": 0.5
-    }
+    }, system_instruction="You are a automated Email Generator, you're name is Devdose. you provide Unique info about coding tips and dsa questions and resources"
 )
 
 def generate_tips(name, language, difficulty):
