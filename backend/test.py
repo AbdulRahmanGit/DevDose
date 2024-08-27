@@ -1,49 +1,17 @@
-#from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import SQLAlchemyError
-from pydantic import BaseModel
-from database import SessionLocal, get_db, fetch_users, User, fetch_details
+from database import SessionLocal, get_db, fetch_users, User, fetch_user
 from email_utils import send_email
 from generate import generate_tips
 from jinja2 import Template
-from fastapi import FastAPI
-import time
-from fastapi.middleware.cors import CORSMiddleware
 import os
-
-
-app = FastAPI()
-# Add CORS middleware
-orig_cors_origins = ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=orig_cors_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# Define Pydantic model for the registration request
-class UserRegistration(BaseModel):
-    name: str
-    email: str
-    language: str
-    difficulty: str
-
-
-
-
-def job():
+def test():
     db = SessionLocal()
     try:
-        users = fetch_users(db)
-        if not users:
+        user = fetch_user(db, "rahmanweb4@gmail.com")
+        if not user:
             print("No users found.")
             return
 
-        for user in users:
+        if user:
             try:
                 name, email, language, difficulty = user.name, user.email, user.language, user.difficulty
                 tips = generate_tips(name, language, difficulty)
@@ -70,24 +38,21 @@ def job():
                         "programming_tip_code": tips.get("programming_tip_code", ""),
                         "programming_tip_output": tips.get("programming_tip_output", ""),
                         "dsa_challenge_title": tips.get("dsa_challenge_title", ""),
+                        "dsa_problem_links":tips.get("dsa_problem_links", ""),
                         "dsa_challenge_problem": tips.get("dsa_challenge_problem", ""),
                         "dsa_challenge_solution_steps": tips.get("dsa_challenge_solution_steps", []),  # Ensure this is a list
                         "dsa_challenge_code": tips.get("dsa_challenge_code", ""),
-                        "dsa_problem_links":tips.get("dsa_problem_links", ""),
                         "footer_message": tips.get("footer_message", ""),
                     }
     
 
                     try:
                         html_content = template.render(context, unsubscribe_link= unsubscribe_link, update_link=update_link)
-                    
                         send_email(subject, html_content, email)
-                        time.sleep(1)
                     except Exception as e:
                         print(f"Error rendering template: {e}")
                 else:
                     print(f"Template file not found at: {template_path}")
-                    continue
 
 
             except Exception as e:
@@ -100,29 +65,4 @@ def job():
 
     finally:
         db.close()
-
-'''
-def schedule_job():
-    schedule.every().day.at("09:00").do(job)
-    print("scheduled at 9 AM")
-    #schedule.every().minute.do(job)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-# Start the scheduling in a separate thread
-def start_scheduler():
-    scheduler_thread = threading.Thread(target=schedule_job)
-    scheduler_thread.daemon = True
-    scheduler_thread.start()
-'''
-def main():
-    job()
-if __name__ == "__main__":
-    #schedule_job()
-    # Start the scheduler thread
-    #start_scheduler()
-    #temp 
-    #job()
-    main()
-    # Run the FastAPI server
+test()

@@ -57,7 +57,7 @@ def register_user(user: UserRegistration, db: Session = Depends(get_db)):
         add_user(db, user.name, user.email, user.language, user.difficulty)
         send_email(
             subject=f"Welcome to Devdose, {user.name}!",
-            body=f"Thank you for registering. You'll start receiving {user.language}tips of {user.difficulty}level soon!",
+            body=f"Thank you for registering. You'll start receiving {user.language} tips of {user.difficulty} level soon!",
             recipient=user.email
         )
         return {"message": "User registered successfully, check your mail"}
