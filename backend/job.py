@@ -10,7 +10,7 @@ from fastapi import FastAPI
 import time
 from fastapi.middleware.cors import CORSMiddleware
 import os
-
+import logging
 
 app = FastAPI()
 # Add CORS middleware
@@ -23,7 +23,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Define Pydantic model for the registration request
 class UserRegistration(BaseModel):
@@ -34,95 +35,71 @@ class UserRegistration(BaseModel):
 
 
 
-
-def job():
+def job(max_retries=3, retry_delay=5):
     db = SessionLocal()
     try:
-        users = fetch_users(db)
+        users = fetch_users(db) 
         if not users:
-            print("No users found.")
+            logger.info("No users found.")
             return
 
         for user in users:
-            try:
-                name, email, language, difficulty = user.name, user.email, user.language, user.difficulty
-                tips = generate_tips(name, language, difficulty)
-                # Ensure the template file exists
-                template_path = os.path.join(os.path.dirname(__file__), 'template.html')
+            retries = 0
+            while retries < max_retries:
+                try:
+                    name, email, language, difficulty = user.name, user.email, user.language, user.difficulty
+                    tips = generate_tips(name, language, difficulty)
+                    template_path = os.path.join(os.path.dirname(__file__), 'template.html')
 
-                if os.path.isfile(template_path):
-                    print(f"Template file found at: {template_path}")
-                    
-                    with open(template_path) as file:
-                        template = Template(file.read())
+                    if os.path.isfile(template_path):
+                        with open(template_path) as file:
+                            template = Template(file.read())
 
-                    # Define subject separately and render with the template
-                    subject = f"Devdose Daily Digest - Level Up Your {difficulty} {language} Skills!"
-                    unsubscribe_link = f"https://devdose.vercel.app/templates/delete.html"
-                    update_link = f"https://devdose.vercel.app/templates/update.html"
-                     
-                    context = {
-                        "header_title": tips.get("header_title", ""),
-                        "introduction_greeting": tips.get("introduction_greeting", ""),
-                        "introduction_message": tips.get("introduction_message", ""),
-                        "programming_tip_title": tips.get("programming_tip_title", ""),
-                        "programming_tip_description": tips.get("programming_tip_description", ""),
-                        "programming_tip_code": tips.get("programming_tip_code", ""),
-                        "programming_tip_output": tips.get("programming_tip_output", ""),
-                        "dsa_challenge_title": tips.get("dsa_challenge_title", ""),
-                        "dsa_challenge_problem": tips.get("dsa_challenge_problem", ""),
-                        "dsa_challenge_solution_steps": tips.get("dsa_challenge_solution_steps", []),  # Ensure this is a list
-                        "dsa_challenge_code": tips.get("dsa_challenge_code", ""),
-                        "dsa_problem_links":tips.get("dsa_problem_links", ""),
-                        "footer_message": tips.get("footer_message", ""),
-                    }
-    
+                        subject = f"Devdose Daily Digest - Level Up Your {difficulty} {language} Skills!"
+                        unsubscribe_link = f"https://devdose.vercel.app/templates/delete.html"
+                        update_link = f"https://devdose.vercel.app/templates/update.html"
 
-                    try:
-                        html_content = template.render(context, unsubscribe_link= unsubscribe_link, update_link=update_link)
-                    
+                        context = {
+                            "header_title": tips.get("header_title", ""),
+                            "introduction_greeting": tips.get("introduction_greeting", ""),
+                            "introduction_message": tips.get("introduction_message", ""),
+                            "programming_tip_title": tips.get("programming_tip_title", ""),
+                            "programming_tip_description": tips.get("programming_tip_description", ""),
+                            "programming_tip_code": tips.get("programming_tip_code", ""),
+                            "programming_tip_output": tips.get("programming_tip_output", ""),
+                            "dsa_challenge_title": tips.get("dsa_challenge_title", ""),
+                            "dsa_challenge_problem": tips.get("dsa_challenge_problem", ""),
+                            "dsa_challenge_solution_steps": tips.get("dsa_challenge_solution_steps", []),
+                            "dsa_challenge_code": tips.get("dsa_challenge_code", ""),
+                            "dsa_problem_links": tips.get("dsa_problem_links", ""),
+                            "footer_message": tips.get("footer_message", ""),
+                        }
+
+                        html_content = template.render(context, unsubscribe_link=unsubscribe_link, update_link=update_link)
                         send_email(subject, html_content, email)
+                        logger.info(f"Email sent to {email} successfully.")
                         time.sleep(1)
-                    except Exception as e:
-                        print(f"Error rendering template: {e}")
-                else:
-                    print(f"Template file not found at: {template_path}")
-                    continue
+                        break  # Break the retry loop if successful
 
-
-            except Exception as e:
-                print(f"Error processing user {user.name}: {e}")
-                # Optionally, log the error or notify someone
-
+                    else:
+                        logger.error(f"Template file not found at: {template_path}")
+                        break  # No need to retry if the template is missing
+                except Exception as e:
+                    retries += 1
+                    logger.error(f"Error processing user {user.name} on attempt {retries}: {e}")
+                    if retries < max_retries:
+                        logger.info(f"Retrying in {retry_delay} seconds...")
+                        time.sleep(retry_delay)
+                    else:
+                        logger.error(f"Max retries reached for user {user.name}. Moving to the next user.")
+                
     except Exception as e:
-        print(f"Error in job execution: {e}")
-        # Optionally, log the error or notify someone
-
+        logger.error(f"Error in job execution: {e}")
     finally:
         db.close()
 
-'''
-def schedule_job():
-    schedule.every().day.at("09:00").do(job)
-    print("scheduled at 9 AM")
-    #schedule.every().minute.do(job)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-# Start the scheduling in a separate thread
-def start_scheduler():
-    scheduler_thread = threading.Thread(target=schedule_job)
-    scheduler_thread.daemon = True
-    scheduler_thread.start()
-'''
 def main():
     job()
+
 if __name__ == "__main__":
-    #schedule_job()
-    # Start the scheduler thread
-    #start_scheduler()
-    #temp 
-    #job()
     main()
-    # Run the FastAPI server
