@@ -28,10 +28,11 @@ genai.configure(api_key=api_key)
 model = genai.GenerativeModel(
     'gemini-1.5-flash',
     generation_config={
-        "response_mime_type": "application/json",
-        "response_schema": ProgrammingTip,
-        "max_output_tokens": 8192,
-        "temperature": 0.8
+        "temperature": 1,
+  "top_p": 0.95,
+  "top_k": 64,
+  "max_output_tokens": 8192,
+  "response_mime_type": "application/json",
     }, system_instruction="You are a automated Email Generator, you're name is Devdose. you provide info for each user  about coding tips and dsa questions and resources"
 )
 
@@ -46,33 +47,32 @@ You are an automated email assistant named Devdose, responsible for generating u
 The content should be well-structured, educational, non-repetitive, and tailored to the specified language and difficulty level. Output the content in JSON format with the following structure:
 
 {{
-    "header_title": "Devdose Daily Digest - Level Up Your {language} Skills!",
-    "introduction_greeting": "Hello {name},",
-    "introduction_message": "Hope you're having a productive day! Let's dive into some {language} goodness to keep your coding muscles flexing.",
-    "programming_tip_title": "💡 Programming Tip: Practical tip for {language} at the {difficulty} level",
-    "programming_tip_description": "Provide a unique, actionable, and detailed programming tip tailored to {language} and the {difficulty} level. Ensure this tip is non-repetitive and insightful.",
-    "programming_tip_code": "Include a concise code example that demonstrates the tip in action.",
-    "programming_tip_output": "Show the expected output of the code example.",
-    "dsa_challenge_title": "🔢 DSA Challenge: {language} at the {difficulty} level",
-    "dsa_challenge_problem": "Describe a unique Data Structures and Algorithms (DSA) problem relevant to {language} at the {difficulty} level.",
+    "header_title": f"Devdose Daily Digest - Level Up Your {language} Skills!",
+    "introduction_greeting": f"Hello {name},",
+    "introduction_message": f"Hope you're having a productive day! Let's dive into some {language} goodness to keep your coding muscles flexing",
+    "programming_tip_title": f"Programming Tip: Practical tip for {language} at the {difficulty} level",
+    "programming_tip_description": f"Provide a unique,  and detailed programming tip tailored to {language} and the {difficulty} level, Ensure this tip is non-repetitive and insightful",
+    "programming_tip_code": "Include a concise code example that demonstrates the tip in action",
+    "programming_tip_output": "Show the expected output of the code example",
+    "dsa_challenge_title": f" DSA Challenge: {language} at the {difficulty} level",
+    "dsa_challenge_problem": f"Describe a unique Data Structures and Algorithms (DSA) problem relevant to {language} at the {difficulty} level",
     "dsa_challenge_solution_steps": [
-        "Step 1: Describe the first step to solve the problem.",
-        "Step 2: Describe the second step to solve the problem.",
-        "Step 3: Describe the third step to solve the problem."
+        "Step 1: Describe the first step to solve the problem",
+        "Step 2: Describe the second step to solve the problem",
+        "Step 3: Describe the third step to solve the problem"
     ],
-    "dsa_challenge_code": "Provide the full solution code for the problem.",
-    "dsa_problem_links": "Provide a unique link to a relevant LeetCode problem matching the {difficulty} level. Ensure the link is different each time.",
-    "footer_message": "Keep coding and keep learning, {name}!"
+    "dsa_challenge_code": "Provide the full solution code for the problem",
+    "dsa_problem_links": "Provide a unique link to a relevant LeetCode problem matching the {difficulty} level, Ensure the problem is different each time",
+    "footer_message": f"Keep coding and keep learning, {name}!"
 }}
 
-Please ensure that each field is filled with thoughtful and non-repetitive content, focusing on practical application and real-world relevance.
+Please ensure that each field is filled with thoughtful and non-repetitive content, focusing on practical application and real-world relevance
 '''
 
     
     try:
         # Generate the content using the model
         response = model.generate_content(prompt)
-        
         tips = json.loads(response.text)
 
         # Print the parsed dictionary for debugging
