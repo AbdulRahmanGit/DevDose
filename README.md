@@ -2,9 +2,9 @@ demo https://github.com/AbdulRahmanGit/DevDose/blob/main/demo.gif
 
 ---
 
-# DevDoses
+# DevDose
 
-DevDoses is an automated email tool designed to provide personalized programming tips and Data Structures and Algorithms (DSA) questions. The system leverages language models to generate tailored content based on user preferences, enhancing learning and engagement.
+DevDose is an automated email tool designed to provide personalized programming tips and Data Structures and Algorithms (DSA) questions. The system leverages language models to generate tailored content based on user preferences, enhancing learning and engagement.
 
 ## Features
 
@@ -26,8 +26,8 @@ DevDoses is an automated email tool designed to provide personalized programming
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/AbdulRahmanGit/LLM-Email-Automation.git
-   cd LLM-Email-Automation
+   git clone https://github.com/AbdulRahmanGit/DevDose.git
+   cd DevDose
    ```
 
 2. **Set Up a Virtual Environment**
@@ -89,7 +89,7 @@ DevDoses is an automated email tool designed to provide personalized programming
 
 ### Contributing
 
-If you'd like to contribute to DevDoses, please follow these steps:
+If you'd like to contribute to DevDose, please follow these steps:
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature/YourFeature`).
@@ -99,11 +99,11 @@ If you'd like to contribute to DevDoses, please follow these steps:
 
 ### License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ### Contact
 
-For any inquiries or feedback, please reach out to [Abdul Rahman](mailto:abdulrahman@example.com).
+For any inquiries or feedback, please reach out to [Abdul Rahman](mailto:rahmanabdulworking@gmail.com).
 
 ---
 
