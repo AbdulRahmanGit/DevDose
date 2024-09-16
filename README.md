@@ -1,4 +1,4 @@
-demo https://github.com/AbdulRahmanGit/DevDose/blob/main/demo.gif
+![DevDose Demo](https://github.com/AbdulRahmanGit/DevDose/blob/main/demo.gif)
 
 ---
 
