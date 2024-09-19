@@ -2,7 +2,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from pydantic import BaseModel
-from database import SessionLocal, get_db, fetch_users, User, fetch_details
+from db import SessionLocal, get_db, fetch_users, User, fetch_details
 from email_utils import send_email
 from generate import generate_tips
 from jinja2 import Template
