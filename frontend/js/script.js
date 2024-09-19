@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
                     console.log('Registration successful:', result);
                     alert(result.message);
-                    window.location.href = 'https://devdoses-worker.onrender.com/job'; // Redirect after success
+                    alert('Thank you for registering! Please check your email for a confirmation link.');
                 } else {
                     const errorData = await response.json();
                     alert(errorData.detail || 'Registration failed');
