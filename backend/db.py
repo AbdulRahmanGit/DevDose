@@ -135,9 +135,10 @@ def fetch_users(db: Session) -> list:
     try:
         users = db.query(User).all()
         
+        '''
         for user in users:
             print(f"Name: {user.name}, Email: {user.email}, Language: {user.language}, Difficulty: {user.difficulty}")
-        
+        '''
         return users
     except Exception as e:
         print(f"Failed to fetch users: {e}")

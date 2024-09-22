@@ -77,7 +77,7 @@ Please ensure that each field is filled with thoughtful and non-repetitive conte
 
         # Print the parsed dictionary for debugging
         #print("Parsed JSON Dictionary:")
-        print(tips)
+        #print(tips)
         return tips
     
     except Exception as e:

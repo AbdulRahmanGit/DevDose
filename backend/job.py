@@ -77,7 +77,7 @@ def job(max_retries=3, retry_delay=5):
 
                         html_content = template.render(context, unsubscribe_link=unsubscribe_link, update_link=update_link)
                         send_email(subject, html_content, email)
-                        logger.info(f"Email sent to {email} successfully.")
+                        logger.info(f"Email sent to {email[0]}***{email[-1]} successfully.")
                         time.sleep(1)
                         break  # Break the retry loop if successful
 

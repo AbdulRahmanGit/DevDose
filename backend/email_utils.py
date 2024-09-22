@@ -27,7 +27,7 @@ def send_email(subject, body, recipient):
         text = msg.as_string()
         server.sendmail(from_email, recipient, text)
         server.quit()
-        print(f"Email sent to {recipient} successfully")
+        
     except Exception as e:
         print(f"Failed to send email: {e}")
 def send_otp(subject, body, recipient):
