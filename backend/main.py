@@ -11,11 +11,14 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = [
+    "https://devdose.vercel.app", 
+]
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (consider restricting in production)
+    allow_origins=origins,  # Allow all origins (consider restricting in production)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
